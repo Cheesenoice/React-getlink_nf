@@ -91,7 +91,7 @@ app.get("/", (req, res) => {
 
 app.post("/get-link", async (req, res) => {
   const { email } = req.body;
-  //   const password = process.env.PASSWORD;
+  const password = process.env.PASSWORD;
 
   if (!email || !password) {
     return res.status(400).json({ error: "Missing email or password" });
@@ -99,7 +99,7 @@ app.post("/get-link", async (req, res) => {
 
   const loginPayload = {
     address: email,
-    password: "huu29tri10",
+    password: password,
   };
 
   const token = await getToken(loginPayload);
