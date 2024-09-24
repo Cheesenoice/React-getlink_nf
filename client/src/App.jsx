@@ -6,11 +6,12 @@ const MailtmChecker = () => {
   const [email, setEmail] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const getLinkFromBackend = async (email) => {
     try {
       // Send the email to the backend to get the link (backend handles token and API calls)
-      const response = await fetch("http://localhost:5001/get-link", {
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
