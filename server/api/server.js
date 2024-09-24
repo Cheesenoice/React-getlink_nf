@@ -24,7 +24,13 @@ const getToken = async (loginPayload) => {
         headers: { "Content-Type": "application/json" },
       }
     );
-    return response.data.token || null;
+
+    // Check for success (200-204 response codes)
+    if (response.status >= 200 && response.status <= 204) {
+      return response.data.token;
+    } else {
+      throw new Error("Failed to fetch token");
+    }
   } catch (error) {
     console.error(
       "Error fetching token:",
@@ -40,7 +46,12 @@ const getMessages = async (token) => {
     const response = await axios.get("https://api.mail.tm/messages", {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data;
+
+    if (response.status >= 200 && response.status <= 204) {
+      return response.data;
+    } else {
+      throw new Error("Failed to fetch messages");
+    }
   } catch (error) {
     console.error(
       "Error fetching messages:",
@@ -56,7 +67,12 @@ const getMessageDetails = async (messageId, token) => {
     const response = await axios.get(`https://api.mail.tm${messageId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data;
+
+    if (response.status >= 200 && response.status <= 204) {
+      return response.data;
+    } else {
+      throw new Error("Failed to fetch message details");
+    }
   } catch (error) {
     console.error(
       "Error fetching message details:",
