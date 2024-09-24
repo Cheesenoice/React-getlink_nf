@@ -4,15 +4,8 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-
 app.use(cors());
 app.use(express.json());
-
-// Add the GET route to respond with "Hello"
-app.get("/", (req, res) => {
-  res.json("Hello");
-});
 
 const getToken = async (loginPayload) => {
   try {
@@ -92,6 +85,10 @@ const extractLink = (messageData) => {
   return null;
 };
 
+app.get("/", (req, res) => {
+  res.json("Hello");
+});
+
 app.post("/get-link", async (req, res) => {
   const { email } = req.body;
   const password = process.env.PASSWORD;
@@ -126,6 +123,4 @@ app.post("/get-link", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = app;
