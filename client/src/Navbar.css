@@ -1,0 +1,38 @@
+/* Styling the navbar to be at the top */
+.navbar {
+  width: 100%;
+  background-color: #000000;
+  color: rgb(173, 79, 79);
+  padding: 10px 20px;
+  position: fixed; /* Keep navbar at the top */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure the navbar stays above all other elements */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box; /* Ensures padding is included in the element's width */
+}
+
+/* Styling for the navbar brand (Hữu Trí) */
+.navbar-brand {
+  font-size: 20px;
+  font-weight: bold;
+  white-space: nowrap; /* Prevent the brand text from wrapping */
+}
+
+/* Styling for the Facebook button in navbar */
+.facebook-button {
+  background-color: #4267b2; /* Facebook blue */
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  white-space: nowrap; /* Prevent the button text from wrapping */
+}
+
+.facebook-button:hover {
+  background-color: #365899; /* Darker Facebook blue on hover */
+}
