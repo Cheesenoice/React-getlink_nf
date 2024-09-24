@@ -1,6 +1,18 @@
-// api/get-link.js
+const express = require("express");
+const axios = require("axios");
+const cors = require("cors");
+require("dotenv").config();
 
-import axios from "axios";
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
+app.use(express.json());
+
+// Add the GET route to respond with "Hello"
+app.get("/", (req, res) => {
+  res.json("Hello");
+});
 
 const getToken = async (loginPayload) => {
   try {
@@ -80,41 +92,40 @@ const extractLink = (messageData) => {
   return null;
 };
 
-// The serverless function handler
-export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { email } = req.body;
-    const password = process.env.PASSWORD;
+app.post("/get-link", async (req, res) => {
+  const { email } = req.body;
+  const password = process.env.PASSWORD;
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "Missing email or password" });
-    }
-
-    const loginPayload = {
-      address: email,
-      password: password,
-    };
-
-    const token = await getToken(loginPayload);
-    if (!token) {
-      return res.status(401).json({ error: "Sai mail" });
-    }
-
-    const messages = await getMessages(token);
-    if (!messages || messages["hydra:totalItems"] === 0) {
-      return res.status(404).json({ error: "No messages available." });
-    }
-
-    const firstMessageId = messages["hydra:member"][0]["@id"];
-    const messageDetails = await getMessageDetails(firstMessageId, token);
-
-    const link = extractLink(messageDetails);
-    if (link) {
-      return res.json({ link });
-    } else {
-      return res.status(404).json({ error: "Mail chưa về" });
-    }
-  } else {
-    res.status(405).json({ error: "Method not allowed" });
+  if (!email || !password) {
+    return res.status(400).json({ error: "Missing email or password" });
   }
-}
+
+  const loginPayload = {
+    address: email,
+    password: password,
+  };
+
+  const token = await getToken(loginPayload);
+  if (!token) {
+    return res.status(401).json({ error: "Sai mail" });
+  }
+
+  const messages = await getMessages(token);
+  if (!messages || messages["hydra:totalItems"] === 0) {
+    return res.status(404).json({ error: "No messages available." });
+  }
+
+  const firstMessageId = messages["hydra:member"][0]["@id"];
+  const messageDetails = await getMessageDetails(firstMessageId, token);
+
+  const link = extractLink(messageDetails);
+  if (link) {
+    return res.json({ link });
+  } else {
+    return res.status(404).json({ error: "Mail chưa về" });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
