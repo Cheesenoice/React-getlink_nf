@@ -4,9 +4,17 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
+const PORT = process.env.PORT || 5000;
+
 app.use(cors());
 app.use(express.json());
 
+// Add the GET route to respond with "Hello"
+app.get("/", (req, res) => {
+  res.json("Hello");
+});
+
+// Fetch token from Mail.tm API
 const getToken = async (loginPayload) => {
   try {
     const response = await axios.post(
@@ -18,11 +26,15 @@ const getToken = async (loginPayload) => {
     );
     return response.data.token || null;
   } catch (error) {
-    console.error("Error fetching token:", error.message);
+    console.error(
+      "Error fetching token:",
+      error.response?.data || error.message
+    );
     return null;
   }
 };
 
+// Fetch messages from Mail.tm API
 const getMessages = async (token) => {
   try {
     const response = await axios.get("https://api.mail.tm/messages", {
@@ -30,11 +42,15 @@ const getMessages = async (token) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching messages:", error.message);
+    console.error(
+      "Error fetching messages:",
+      error.response?.data || error.message
+    );
     return null;
   }
 };
 
+// Fetch message details from Mail.tm API
 const getMessageDetails = async (messageId, token) => {
   try {
     const response = await axios.get(`https://api.mail.tm${messageId}`, {
@@ -42,11 +58,15 @@ const getMessageDetails = async (messageId, token) => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching message details:", error.message);
+    console.error(
+      "Error fetching message details:",
+      error.response?.data || error.message
+    );
     return null;
   }
 };
 
+// Extract link from the message data
 const extractLink = (messageData) => {
   const dataString = JSON.stringify(messageData);
 
@@ -85,14 +105,11 @@ const extractLink = (messageData) => {
   return null;
 };
 
-app.get("/", (req, res) => {
-  res.json({ message: "Hello", password: process.env.PASSWORD });
-});
-
+// Handle POST request to fetch the link
 app.post("/get-link", async (req, res) => {
   try {
     const { email } = req.body;
-    const password = process.env.PASSWORD; // Ensure this is being retrieved correctly
+    const password = process.env.PASSWORD; // Fetch password from environment variables
 
     if (!email || !password) {
       return res.status(400).json({ error: "Missing email or password" });
@@ -127,9 +144,12 @@ app.post("/get-link", async (req, res) => {
       return res.status(404).json({ error: "No link found in the message" });
     }
   } catch (error) {
-    console.error("Error occurred:", error.message);
+    console.error("Error processing request:", error.message);
     return res.status(500).json({ error: "Internal server error" });
   }
 });
 
-module.exports = app;
+// Start the Express server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
