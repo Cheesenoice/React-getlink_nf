@@ -1,16 +1,17 @@
 import React from "react";
-import "./Navbar.css"; // Import CSS for styling
+import "./Navbar.css";
 
 const Navbar = () => {
   return (
     <nav className="navbar">
-      <div className="navbar-brand">NETFLIX</div>
-      <div className="navbar-links">
+      <div className="navbar-container">
+        <a href="/" className="navbar-logo">
+          Netflix Tool
+        </a>
         <a
-          href="https://www.facebook.com/huutrii/"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="https://facebook.com/huutrii"
           className="facebook-button"
+          target="_blank"
         >
           Facebook
         </a>

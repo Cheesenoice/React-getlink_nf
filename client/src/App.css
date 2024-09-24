@@ -1,107 +1,137 @@
-/* Styling for the Facebook button in navbar */
-.facebook-button {
-  background-color: #4267b2; /* Facebook blue */
-  color: white;
-  padding: 8px 16px;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.facebook-button:hover {
-  background-color: #365899; /* Darker Facebook blue on hover */
-}
-
-/* Styling the container for Mailtm Checker */
-.mailtm-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-
-  /* Center the container */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* Styling for the title */
-.title {
-  text-align: center;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-/* Styling for the yellow instruction box */
-.instruction {
-  background-color: #fff5da; /* Yellow background */
-  color: #d9a209;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-/* Styling for the email input field */
-.email-input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+/* General Reset and Box Sizing */
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-/* Styling for the 'Get Link' button */
-.get-link-button {
+/* Body styling for centering */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Container for the content */
+.mailtm-container {
   width: 100%;
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  max-width: 400px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 80px;
+
+  /* Responsive for wider screens */
+  @media (min-width: 768px) {
+    max-width: 450px;
+  }
+
+  /* Responsive for smaller screens */
+  @media (max-width: 767px) {
+    width: 90%;
+  }
+
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+
+    @media (min-width: 768px) {
+      font-size: 26px;
+    }
+  }
+
+  .instruction {
+    background-color: #fff7e6;
+    color: #d98c00;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+
+    @media (min-width: 768px) {
+      font-size: 16px;
+    }
+  }
+
+  .email-input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      border-color: #4caf50;
+      outline: none;
+    }
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+      padding: 12px;
+    }
+  }
+
+  .get-link-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #45cb85;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #3bad71;
+    }
+
+    &:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 767px) {
+      font-size: 14px;
+      padding: 12px;
+    }
+  }
+
+  .result-container {
+    margin-top: 20px;
+
+    .result-box {
+      background-color: #f7f7f7;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      word-wrap: break-word;
+      font-size: 16px;
+      color: #333;
+
+      @media (max-width: 767px) {
+        font-size: 14px;
+      }
+    }
+  }
 }
 
-.get-link-button:hover {
-  background-color: #45a049;
-}
-
-.get-link-button:disabled {
-  background-color: #999;
-  cursor: not-allowed;
-}
-
-/* Styling for the result container */
-.result-container {
-  margin-top: 20px;
-}
-
-.result-box {
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-top: 10px;
-  word-wrap: break-word;
-  color: #333;
-}
-
+/* Link styling */
 a {
-  color: #1e90ff;
+  color: #1e88e5;
   text-decoration: none;
-}
 
-a:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 }
