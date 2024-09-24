@@ -86,40 +86,49 @@ const extractLink = (messageData) => {
 };
 
 app.get("/", (req, res) => {
-  res.json("Hello");
+  res.json({ message: "Hello", password: process.env.PASSWORD });
 });
 
 app.post("/get-link", async (req, res) => {
-  const { email } = req.body;
-  const password = process.env.PASSWORD;
+  try {
+    const { email } = req.body;
+    const password = process.env.PASSWORD; // Ensure this is being retrieved correctly
 
-  if (!email || !password) {
-    return res.status(400).json({ error: "Missing email or password" });
-  }
+    if (!email || !password) {
+      return res.status(400).json({ error: "Missing email or password" });
+    }
 
-  const loginPayload = {
-    address: email,
-    password: password,
-  };
+    const loginPayload = {
+      address: email,
+      password: password,
+    };
 
-  const token = await getToken(loginPayload);
-  if (!token) {
-    return res.status(401).json({ error: "Sai mail" });
-  }
+    // Fetch token
+    const token = await getToken(loginPayload);
+    if (!token) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
 
-  const messages = await getMessages(token);
-  if (!messages || messages["hydra:totalItems"] === 0) {
-    return res.status(404).json({ error: "No messages available." });
-  }
+    // Fetch messages
+    const messages = await getMessages(token);
+    if (!messages || messages["hydra:totalItems"] === 0) {
+      return res.status(404).json({ error: "No messages available." });
+    }
 
-  const firstMessageId = messages["hydra:member"][0]["@id"];
-  const messageDetails = await getMessageDetails(firstMessageId, token);
+    // Fetch first message details
+    const firstMessageId = messages["hydra:member"][0]["@id"];
+    const messageDetails = await getMessageDetails(firstMessageId, token);
 
-  const link = extractLink(messageDetails);
-  if (link) {
-    return res.json({ link });
-  } else {
-    return res.status(404).json({ error: "Mail chưa về" });
+    // Extract link
+    const link = extractLink(messageDetails);
+    if (link) {
+      return res.json({ link });
+    } else {
+      return res.status(404).json({ error: "No link found in the message" });
+    }
+  } catch (error) {
+    console.error("Error occurred:", error.message);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
