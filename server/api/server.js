@@ -86,7 +86,7 @@ const extractLink = (messageData) => {
 };
 
 app.get("/", (req, res) => {
-  res.json("Hello");
+  res.json({ password });
 });
 
 app.post("/get-link", async (req, res) => {
