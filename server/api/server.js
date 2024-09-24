@@ -86,12 +86,12 @@ const extractLink = (messageData) => {
 };
 
 app.get("/", (req, res) => {
-  res.json({ password });
+  res.json("Hello");
 });
 
 app.post("/get-link", async (req, res) => {
   const { email } = req.body;
-  const password = process.env.PASSWORD;
+  //   const password = process.env.PASSWORD;
 
   if (!email || !password) {
     return res.status(400).json({ error: "Missing email or password" });
@@ -99,7 +99,7 @@ app.post("/get-link", async (req, res) => {
 
   const loginPayload = {
     address: email,
-    password: password,
+    password: "huu29tri10",
   };
 
   const token = await getToken(loginPayload);
