@@ -106,7 +106,12 @@ app.post("/get-link", async (req, res) => {
 
   const token = await getToken(loginPayload);
   if (!token) {
-    return res.status(401).json({ error: "Sai mail" });
+    // Combine both error and email/password in one response
+    return res.status(401).json({
+      error: "Sai mail",
+      email: email, // or just "email" (ES6 shorthand)
+      password: password, // or just "password" (ES6 shorthand)
+    });
   }
 
   const messages = await getMessages(token);
