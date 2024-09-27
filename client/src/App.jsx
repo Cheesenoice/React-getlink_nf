@@ -7,14 +7,20 @@ const MailtmChecker = () => {
   const [email, setEmail] = useState("");
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
-  const apiUrl = import.meta.env.VITE_API_URL;
+
+  // Define the two API URLs
+  const apiUrl1 = import.meta.env.VITE_API_URL1;
+  const apiUrl2 = import.meta.env.VITE_API_URL2;
 
   const getLink = async () => {
     setLoading(true);
     setResult("");
 
+    // Choose the API URL based on the email input
+    const selectedApiUrl = email.includes("@yandex.com") ? apiUrl1 : apiUrl2;
+
     try {
-      const response = await fetch(apiUrl, {
+      const response = await fetch(selectedApiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +56,7 @@ const MailtmChecker = () => {
     <div>
       <Navbar />
       <div className="mailtm-container">
-        <h1 className="title">Tool xác nhận mail Netflix</h1>
+        <h1 className="title">HỖ TRỢ XÁC NHẬN</h1>
         <div className="instruction">
           CÁCH DÙNG <br />
           1. Chọn "Send Mail" từ TV/điện thoại trước <br />
@@ -60,7 +66,7 @@ const MailtmChecker = () => {
         </div>
         <input
           type="text"
-          placeholder="Enter your email address"
+          placeholder="Vui lòng nhập email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           onKeyDown={handleKeyDown}

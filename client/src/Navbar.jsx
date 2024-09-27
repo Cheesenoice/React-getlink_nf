@@ -6,7 +6,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <a href="/" className="navbar-logo">
-          Netflix Tool
+          NETFLIX AND CHILL
         </a>
         <div className="social-buttons">
           <a
