@@ -1,92 +1,32 @@
-import React, { useState } from "react";
-import "./App.css";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import MailtmChecker from "./MailtmChecker";
+import PrivacyPolicy from "./PrivacyPolicy";
+import TermsOfUse from "./TermOfUse";
 
-const MailtmChecker = () => {
-  const [email, setEmail] = useState("");
-  const [result, setResult] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  // Define the two API URLs
-  const apiUrl1 = import.meta.env.VITE_API_URL1;
-  const apiUrl2 = import.meta.env.VITE_API_URL2;
-
-  const getLink = async () => {
-    setLoading(true);
-    setResult("");
-
-    // Choose the API URL based on the email input
-    const selectedApiUrl = email.includes("@yandex.com") ? apiUrl1 : apiUrl2;
-
-    try {
-      const response = await fetch(selectedApiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-      if (data.link) {
-        setResult(
-          <a href={data.link} target="_blank" rel="noopener noreferrer">
-            {data.link}
-          </a>
-        );
-      } else {
-        setResult(data.error || "Error fetching the link");
-      }
-    } catch (error) {
-      console.error("Error contacting the server:", error);
-      setResult("Error contacting the server.");
-    }
-
-    setLoading(false);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      getLink();
-    }
-  };
-
+const App = () => {
   return (
-    <div>
-      <Navbar />
-      <div className="mailtm-container">
-        <h1 className="title">HỖ TRỢ XÁC NHẬN</h1>
-        <div className="instruction">
-          CÁCH DÙNG <br />
-          1. Chọn "Send Mail" từ TV/điện thoại trước <br />
-          2. Sau đó lên web nhấn "Get Link" <br />
-          3. Bấm vào link và nhận mã <br />
-          **làm đúng thứ tự nha ko là sai mã**
-        </div>
-        <input
-          type="text"
-          placeholder="Vui lòng nhập email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className="email-input"
-        />
-        <button
-          onClick={getLink}
-          className="get-link-button"
-          disabled={loading}
-        >
-          {loading ? "Loading..." : "Get Link"}
-        </button>
-        <div className="result-container">
-          <strong>Result:</strong>
-          <div className="result-box">{result}</div>
-        </div>
-      </div>
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        {/* Đường dẫn mặc định */}
+        <Route path="/" element={<MailtmChecker />} />
+
+        {/* Đường dẫn Chính sách bảo mật */}
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+        {/* Đường dẫn Điều khoản sử dụng */}
+        <Route path="/terms-of-use" element={<TermsOfUse />} />
+
+        {/* Chuyển hướng các đường dẫn không tồn tại về trang chủ */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 };
 
-export default MailtmChecker;
+export default App;

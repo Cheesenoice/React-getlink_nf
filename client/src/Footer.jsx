@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="footer">
       <p>
-        Designed & Developed by{" "}
+        Công cụ được phát triển bởi{" "}
         <a
           href="https://www.instagram.com/trisdev_"
           target="_blank"
@@ -13,11 +13,16 @@ const Footer = () => {
           className="instagram-link"
         >
           @trisdev_
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/900px-Instagram_icon.png?20200512141346"
-            alt="Instagram"
-            className="instagram-icon"
-          />
+        </a>
+        .
+      </p>
+      <p>
+        <a href="/privacy-policy" className="footer-link">
+          Chính sách bảo mật
+        </a>{" "}
+        |{" "}
+        <a href="/terms-of-use" className="footer-link">
+          Điều khoản sử dụng
         </a>
       </p>
     </footer>
